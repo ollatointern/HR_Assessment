@@ -31,6 +31,8 @@ export const AuthProvider = ({ children }) => {
     // Clear local storage and set user to null
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("answers");
+
     setUser(null);
   };
 
