@@ -1,18 +1,13 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext"; // Access the AuthContext
 import DashboardHeader from "../constants/DashboardHeader";
 import Sidebar from "./Sidebar";
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-  const { user, logout } = useAuth(); // Use user and logout function from AuthContext
+  const { user } = useAuth(); // Use user and logout function from AuthContext
+  const userId = user ? user.id : null;
+  console.log(userId);
   console.log(user);
-
-  const handleLogout = () => {
-    logout(); // Call the logout function from context
-    navigate("/"); // Navigate to the login page
-  };
 
   useEffect(() => {
     // You can add any logic here that you want to execute when the component mounts

@@ -27,7 +27,7 @@ const Signup = () => {
         signupData
       );
       setSuccess(response.data.msg);
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       if (error.response && error.response.data) {
         setError(error.response.data.msg);
