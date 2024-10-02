@@ -7,6 +7,7 @@ const Logout = () => {
 
   const handleLogout = () => {
     logout(); // Call the logout function
+    localStorage.removeItem("timeRemaining");
     navigate("/login"); // Redirect to the login page after logging out
   };
 

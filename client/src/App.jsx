@@ -14,6 +14,7 @@ import SessionManagement from "./pages/SessionManagement";
 import Language from "./pages/Language";
 import InstructionPage from "./pages/InstructionPage";
 import Results from "./pages/Results";
+import CompletedAssessment from "./pages/CompletedAssessment";
 Dashboard;
 function App() {
   return (
@@ -110,6 +111,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Results />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/completedAssessment"
+            element={
+              <ProtectedRoute>
+                <CompletedAssessment />
               </ProtectedRoute>
             }
           />
