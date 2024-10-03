@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios"; // Import axios for API calls
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import ConstantHeader from "../constants/ConstantHeader";
+import ConstantFooter from "../constants/ConstantFooter";
 
 const Signup = () => {
   const [fullName, setFullName] = useState("");
@@ -17,32 +19,20 @@ const Signup = () => {
     setError(""); // Reset error
     setSuccess(""); // Reset success
 
-    // Your signup data to be sent to the API
     const signupData = { fullName, email, password, dateOfBirth, gender };
 
     try {
-      console.log("Sending signup request:", signupData);
-      // Make the POST request to your signup API
       const response = await axios.post(
         "http://localhost:5000/api/auth/signup",
         signupData
       );
-
-      console.log("Response from server:", response.data);
-
-      // If signup is successful
       setSuccess(response.data.msg);
-
-      // Navigate to the login page after signup
-      navigate("/login");
+      navigate("/");
     } catch (error) {
-      // Handle error (e.g., user already exists, validation errors)
       if (error.response && error.response.data) {
         setError(error.response.data.msg);
-        console.error("Signup error:", error.response.data.msg);
       } else {
         setError("Something went wrong. Please try again.");
-        console.error("Unknown error:", error);
       }
     }
   };
@@ -50,17 +40,19 @@ const Signup = () => {
   return (
     <div className="min-h-screen flex flex-col justify-between">
       {/* Header */}
-      <header className="bg-gray-800 text-white p-4">
-        <h1 className="text-center text-xl">Header</h1>
+      <header className="bg-gray-100 text-black p-4 shadow-md">
+        <ConstantHeader />
       </header>
 
       {/* Signup Form */}
-      <main className="flex-grow flex justify-center items-center">
+      <main className="flex-grow flex justify-center items-center bg-gradient-to-r from-blue-50 to-gray-100">
         <form
           onSubmit={handleSignup}
-          className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg"
+          className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg"
         >
-          <h2 className="text-2xl font-bold mb-6 text-center">Signup</h2>
+          <h2 className="text-3xl font-semibold mb-8 text-center text-blue-700">
+            Create Your Account
+          </h2>
 
           {/* Display Error or Success message */}
           {error && <p className="text-red-500 text-center mb-4">{error}</p>}
@@ -80,7 +72,8 @@ const Signup = () => {
               id="fullName"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-200"
+              placeholder="Enter your Full name"
               required
             />
           </div>
@@ -97,7 +90,8 @@ const Signup = () => {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-200"
+              placeholder="you@example.com"
               required
             />
           </div>
@@ -114,7 +108,8 @@ const Signup = () => {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-200"
+              placeholder="Enter your password"
               required
             />
           </div>
@@ -131,7 +126,7 @@ const Signup = () => {
               id="dateOfBirth"
               value={dateOfBirth}
               onChange={(e) => setDateOfBirth(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-200"
               required
             />
           </div>
@@ -143,7 +138,7 @@ const Signup = () => {
             <select
               value={gender}
               onChange={(e) => setGender(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-200"
               required
             >
               <option value="">Select Gender</option>
@@ -155,16 +150,27 @@ const Signup = () => {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+            className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-all duration-300"
           >
             Sign Up
           </button>
+          <div className="text-center mt-4">
+            <p>
+              Already have an account?{" "}
+              <Link
+                to="/"
+                className="text-blue-600 hover:text-blue-800 underline"
+              >
+                Login here
+              </Link>
+            </p>
+          </div>
         </form>
       </main>
 
       {/* Footer */}
-      <footer className="bg-gray-800 text-white p-4">
-        <p className="text-center">Footer</p>
+      <footer className="bg-gray-100 text-black p-4 shadow-inner">
+        <ConstantFooter />
       </footer>
     </div>
   );
