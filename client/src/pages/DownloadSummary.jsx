@@ -1,18 +1,7 @@
-import { useEffect } from "react";
-import { useAuth } from "../contexts/AuthContext"; // Access the AuthContext
+import Sidebar from "../components/Sidebar";
 import DashboardHeader from "../constants/DashboardHeader";
-import Sidebar from "./Sidebar";
 
-const Dashboard = () => {
-  const { user } = useAuth(); // Use user and logout function from AuthContext
-  const userId = user ? user.id : null;
-  console.log(userId);
-  console.log(user);
-
-  useEffect(() => {
-    // You can add any logic here that you want to execute when the component mounts
-  }, []);
-
+const DownloadSummary = () => {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Dashboard Header */}
@@ -28,7 +17,7 @@ const Dashboard = () => {
         {/* Main Content */}
         <main className="flex-grow p-8">
           <h1 className="text-4xl font-bold mb-6 text-gray-800">
-            Hello, {user?.name}! Welcome to the Dashboard
+            Download Summary
           </h1>
         </main>
       </div>
@@ -36,4 +25,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default DownloadSummary;

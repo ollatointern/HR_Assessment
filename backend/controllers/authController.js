@@ -87,14 +87,18 @@ const login = (req, res) => {
       }
 
       // Generate a token with the user's full name
-      const token = jwt.sign({ fullName: user.fullName }, (secretKey = "yash"));
+      const token = jwt.sign(
+        { fullName: user.fullName, id: user.id },
+        (secretKey = "yash")
+      );
 
       // Password is correct, proceed with login
       res.status(200).json({
         msg: "Login successful",
         token, // Send the token back to the client
-        user: { email: user.email, name: user.fullName },
+        user: { email: user.email, name: user.fullName, id: user.Id },
       });
+      console.log(user);
     });
   });
 };
