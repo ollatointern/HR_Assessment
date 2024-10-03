@@ -932,7 +932,7 @@ const Assessment = () => {
       {/* Main Grid Layout with Sidebar and Content */}
       <div className="grid grid-cols-[200px_1fr] gap-4 h-full">
         {/* Sidebar Section */}
-        <div className="h-full overflow-y-auto">
+        <div className="h-full overflow-y-auto pt-12 mt-12">
           <Sidebar />
         </div>
 

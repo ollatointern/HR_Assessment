@@ -15,6 +15,7 @@ import Language from "./pages/Language";
 import InstructionPage from "./pages/InstructionPage";
 import Results from "./pages/Results";
 import CompletedAssessment from "./pages/CompletedAssessment";
+import Payment from "./pages/Payment";
 Dashboard;
 function App() {
   return (
@@ -119,6 +120,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <CompletedAssessment />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/payment"
+            element={
+              <ProtectedRoute>
+                <Payment />
               </ProtectedRoute>
             }
           />
