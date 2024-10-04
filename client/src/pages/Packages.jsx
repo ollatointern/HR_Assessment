@@ -20,7 +20,7 @@ const Packages = () => {
         <DashboardHeader />
 
         {/* Main Dashboard Content */}
-        <div className="flex flex-grow mt-20">
+        <div className="flex flex-grow mt-20 h-full">
           {/* Sidebar */}
           <aside className="w-64 bg-gray-100 h-full overflow-y-auto p-4">
             <Sidebar />

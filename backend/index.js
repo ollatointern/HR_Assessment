@@ -4,6 +4,7 @@ const db = require("./config/db"); // This will establish the connection
 const authRoutes = require("./routes/auth");
 const counselorRoutes = require("./routes/counselorRoutes");
 const sessionRoutes = require("./routes/sessionRoute");
+const myActivities = require("./routes/myActivities");
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/counsellors", counselorRoutes);
 app.use("/api/sessions", sessionRoutes);
+app.use("/api/activity", myActivities);
 
 // Test route
 app.get("/", (req, res) => {
