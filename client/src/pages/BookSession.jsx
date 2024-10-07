@@ -1,142 +1,76 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
-import { counsellers } from "../constants/Counsellers";
 import DashboardHeader from "../constants/DashboardHeader";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const BookSession = () => {
-  const [searchTerm, setSearchTerm] = useState(""); // State for search input
-  const [selectedExpertise, setSelectedExpertise] = useState("All"); // State for selected expertise
+  const [counsellor, setCounsellor] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
-  // Filtered counsellors based on search term and expertise
-  const filteredCounsellors = counsellers.filter((counsellor) => {
-    const nameMatches = counsellor.name
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-    const expertiseMatches =
-      selectedExpertise === "All" ||
-      counsellor.expertise.some((exp) =>
-        exp.toLowerCase().includes(selectedExpertise.toLowerCase())
-      );
-    return nameMatches && expertiseMatches;
-  });
+  const handleClick = () => {
+    navigate("/counsellorsDetails");
+  };
+
+  useEffect(() => {
+    const fetchCounsellor = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/counsellors/256"
+        );
+        // console.log("API response status:", response.status); // Log status
+        // console.log("API response data:", response.data); // Log the data
+        if (response.data) {
+          setCounsellor(response.data); // Set the counsellor state
+        } else {
+          console.log("No counsellor found");
+        }
+      } catch (error) {
+        console.log("Cannot get Counsellor", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCounsellor();
+  }, []);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   return (
-    <div>
-      <div className="min-h-screen flex flex-col">
-        {/* Dashboard Header */}
-        <DashboardHeader />
-
-        {/* Main Dashboard Content */}
-        <div className="flex flex-grow mt-20">
-          {/* Sidebar */}
-          <aside className="w-64 bg-gray-100 h-full overflow-y-auto p-4">
-            <Sidebar />
-          </aside>
-
-          {/* Main Content */}
-          <main className="flex-grow p-8">
-            <h1 className="text-4xl font-bold mb-6 text-gray-800">
-              Book Session
-            </h1>
-            <div className="flex-1 p-6 bg-gray-100 overflow-y-auto">
-              <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
-                Book Session
+    <div className="min-h-screen flex flex-col bg-gray-100">
+      <DashboardHeader />
+      <div className="flex flex-grow mt-20">
+        <aside className="w-64 bg-gray-200 h-screen overflow-y-auto p-4 shadow-lg">
+          <Sidebar />
+        </aside>
+        <main className="flex-grow p-8 bg-white shadow-lg rounded-lg">
+          <div className="container mx-auto p-4 pt-6">
+            <div className="bg-white p-6 shadow-lg rounded-lg">
+              <h1 className="text-2xl font-bold mb-4">
+                {counsellor.full_name}
               </h1>
-
-              {/* Filter Buttons */}
-              <div className="mb-4 flex gap-4 justify-center">
-                <button
-                  className={`bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 transition duration-200 ${
-                    selectedExpertise === "All" ? "bg-blue-700" : ""
-                  }`}
-                  onClick={() => setSelectedExpertise("All")}
-                >
-                  All
-                </button>
-                <button
-                  className={`bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 transition duration-200 ${
-                    selectedExpertise === "Career Counsellor"
-                      ? "bg-blue-700"
-                      : ""
-                  }`}
-                  onClick={() => setSelectedExpertise("Career Counsellor")}
-                >
-                  Career Counsellor
-                </button>
-                <button
-                  className={`bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 transition duration-200 ${
-                    selectedExpertise === "Psychologist" ? "bg-blue-700" : ""
-                  }`}
-                  onClick={() => setSelectedExpertise("Psychologist")}
-                >
-                  Psychologist
-                </button>
-                <button
-                  className={`bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 transition duration-200 ${
-                    selectedExpertise === "Group Counsellor"
-                      ? "bg-blue-700"
-                      : ""
-                  }`}
-                  onClick={() => setSelectedExpertise("Group Counsellor")}
-                >
-                  Group Counsellor
-                </button>
-              </div>
-
-              {/* Search Counsellor */}
-              <div className="mb-6 flex justify-center">
-                <input
-                  type="text"
-                  placeholder="Search Counsellor Name"
-                  className="p-3 border rounded-lg shadow-sm focus:outline-none focus:border-blue-500 w-full md:w-1/2"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
-
-              {/* Counsellors List */}
-              <div className="bg-white shadow-lg rounded-lg p-6">
-                <h2 className="text-2xl font-semibold mb-4 text-gray-700">
-                  Available Counsellors
-                </h2>
-
-                {filteredCounsellors.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {filteredCounsellors.map((counsellor) => (
-                      <div
-                        key={counsellor.id}
-                        className="border rounded-lg p-4 shadow-md hover:shadow-lg transition duration-200"
-                      >
-                        <h3 className="text-xl font-semibold text-gray-700">
-                          {counsellor.name}
-                        </h3>
-                        <p className="text-gray-500">
-                          Expertise: {counsellor.expertise.join(", ")}
-                        </p>
-                        <p className="text-gray-500">
-                          Experience: {counsellor.experience}
-                        </p>
-                        <p className="text-gray-500">
-                          Languages: {counsellor.language}
-                        </p>
-                        <p className="text-gray-500">
-                          Location: {counsellor.location}
-                        </p>
-                        <button className="mt-4 bg-green-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 transition duration-200">
-                          Book Now
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-gray-500 text-center">
-                    No counsellor found
-                  </p>
-                )}
-              </div>
+              <p>Email: {counsellor.email_address}</p>
+              <p>Gender: {counsellor.gender}</p>
+              <p>
+                Professional Expertise:{" "}
+                {counsellor.professional_expertise.split(", ").join(", ")}
+              </p>
+              <p>Age: {counsellor.age}</p>
+              <p>Total Experience: {counsellor.total_experience} years</p>
+              <p>State: {counsellor.state}</p>
+              <button
+                type="button"
+                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 pt-2 mt-2"
+                onClick={handleClick}
+              >
+                Book Now
+              </button>
             </div>
-          </main>
-        </div>
+          </div>
+        </main>
       </div>
     </div>
   );
