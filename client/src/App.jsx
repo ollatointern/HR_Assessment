@@ -16,6 +16,7 @@ import InstructionPage from "./pages/InstructionPage";
 import Results from "./pages/Results";
 import CompletedAssessment from "./pages/CompletedAssessment";
 import Payment from "./pages/Payment";
+import CounsellorDetails from "./pages/CounsellorDetails";
 Dashboard;
 function App() {
   return (
@@ -128,6 +129,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Payment />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/counsellorsDetails"
+            element={
+              <ProtectedRoute>
+                <CounsellorDetails />
               </ProtectedRoute>
             }
           />

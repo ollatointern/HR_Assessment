@@ -1,6 +1,90 @@
 const db = require("../config/db"); // Make sure this path is correct
 
 // Function to book a session and insert into session_management_demo
+// exports.bookSession = (req, res) => {
+//   const {
+//     counsellorId,
+//     b_time_slot,
+//     b_date,
+//     b_mode,
+//     b_duration,
+//     student_id,
+//     session_link,
+//   } = req.body;
+
+//   // Insert the booking details into the session_management_demo table
+//   const query = `
+//         INSERT INTO session_management_demo (counsellor_id, b_time_slot, b_date, b_mode, b_duration, student_id, session_link, booked)
+//         VALUES (?, ?, ?, ?, ?, ?, ?, 1)`; // Setting booked to 1
+
+//   db.query(
+//     query,
+//     [
+//       counsellorId,
+//       b_time_slot,
+//       b_date,
+//       b_mode,
+//       b_duration,
+//       student_id,
+//       session_link,
+//     ],
+//     (err, results) => {
+//       if (err) {
+//         return res.status(500).json({ error: "Error booking session" });
+//       }
+//       res.status(201).json({
+//         message: "Session booked successfully",
+//         sessionId: results.insertId,
+//       });
+//     }
+//   );
+// };
+
+// Function to book a session and insert into session_management_demo
+// exports.bookSession = (req, res) => {
+//   const {
+//     counsellorId,
+//     b_time_slot,
+//     b_date,
+//     b_mode,
+//     b_duration,
+//     student_id,
+//     session_link,
+//   } = req.body;
+
+//   // Insert the booking details into the session_management_demo table
+//   const query = `
+//         INSERT INTO session_management_demo (counsellor_id, b_time_slot, b_date, b_mode, b_duration, student_id, session_link, booked, status, created_at)
+//         VALUES (?, ?, ?, ?, ?, ?, ?, 1, 'active', NOW())`; // 'active' is a default value, NOW() for current timestamp
+
+//   db.query(
+//     query,
+//     [
+//       counsellorId,
+//       b_time_slot,
+//       b_date,
+//       b_mode,
+//       b_duration,
+//       student_id,
+//       session_link,
+//     ],
+//     (err, results) => {
+//       if (err) {
+//         console.error("Database error:", err); // Log the error for debugging
+//         return res
+//           .status(500)
+//           .json({ error: "Error booking session", details: err.message }); // Include error details
+//       }
+//       res.status(201).json({
+//         message: "Session booked successfully",
+//         sessionId: results.insertId,
+//       });
+//     }
+//   );
+// };
+
+// Function to check availability from the useravailability table
+
 exports.bookSession = (req, res) => {
   const {
     counsellorId,
@@ -30,6 +114,7 @@ exports.bookSession = (req, res) => {
     ],
     (err, results) => {
       if (err) {
+        console.error("Database error:", err); // Log database error for debugging
         return res.status(500).json({ error: "Error booking session" });
       }
       res.status(201).json({
@@ -40,7 +125,6 @@ exports.bookSession = (req, res) => {
   );
 };
 
-// Function to check availability from the useravailability table
 exports.checkAvailability = (req, res) => {
   const userId = req.params.user_id;
 
