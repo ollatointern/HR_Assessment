@@ -21,6 +21,18 @@ const Sidebar = () => {
               : "text-gray-700 hover:bg-blue-100"
           }`
         }
+        to={"/dashboard"}
+      >
+        Dashboard
+      </NavLink>
+      <NavLink
+        className={({ isActive }) =>
+          `block mb-4 p-2 rounded transition-colors duration-200 ${
+            isActive
+              ? "bg-blue-500 text-white"
+              : "text-gray-700 hover:bg-blue-100"
+          }`
+        }
         to={"/packages"}
       >
         Packages
