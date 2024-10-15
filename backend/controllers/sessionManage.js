@@ -143,3 +143,58 @@ exports.checkAvailability = (req, res) => {
     res.json(results); // Return the availability info
   });
 };
+
+exports.getSessions = async (req, res) => {
+  try {
+    // Get student ID from request params
+    const studentId = req.params.user_id;
+    console.log(studentId);
+
+    // Query to fetch all booked sessions for the student ID
+    const query = `SELECT * FROM session_management_demo WHERE Student_id = ?`;
+
+    // Executing the query and getting results
+    db.query(query, [studentId], (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({ error: "Error fetching results" });
+      }
+
+      if (results.length > 0) {
+        // Return all results as an array
+        console.log(results);
+        return res.status(200).json(results); // Return the whole array of sessions
+      } else {
+        return res
+          .status(404)
+          .json({ message: "No sessions found for the student" });
+      }
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Unable to fetch sessions",
+    });
+  }
+};
+
+// cancle session
+
+// In your sessionController.js
+
+exports.cancelSession = (req, res) => {
+  const { session_id } = req.params;
+
+  // Update the status of the session to 'cancelled'
+  const query =
+    "UPDATE session_management_demo SET status = ? WHERE session_id = ?";
+
+  db.query(query, ["cancelled", session_id], (error, results) => {
+    if (error) {
+      console.error("Error cancelling session:", error);
+      return res.status(500).json({ error: "Failed to cancel session" });
+    }
+
+    return res.status(200).json({ message: "Session cancelled successfully" });
+  });
+};
